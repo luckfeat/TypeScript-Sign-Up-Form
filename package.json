@@ -1,0 +1,23 @@
+{
+  "name": "sign-up-form",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luckfeat/TypeScript-Sign-Up-Form.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luckfeat/TypeScript-Sign-Up-Form/issues"
+  },
+  "homepage": "https://github.com/luckfeat/TypeScript-Sign-Up-Form#readme",
+  "dependencies": {
+    "parcel": "^2.9.3"
+  }
+}

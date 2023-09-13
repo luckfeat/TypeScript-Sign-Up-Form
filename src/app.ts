@@ -63,7 +63,6 @@ export default class App {
     idField.addValidateRule(CantContainWhitespace);
     idField.addValidateRule(CantStartNumber);
     idField.addValidateRule(MinimumLengthLimit(3));
-
     emailField.addValidateRule(CantContainWhitespace);
 
     this.fields.push(nameField);
@@ -73,7 +72,10 @@ export default class App {
     this.fields.push(addressField);
   }
 
-  private onSubmit() {}
+  private onSubmit(e: Event) {
+    e.preventDefault();
+    console.log('hello');
+  }
 
   public render = () => {
     this.container.innerHTML = this.template(this.data);
@@ -81,6 +83,8 @@ export default class App {
       field.render(true);
     });
 
-    this.container.addEventListener('submit', this.onSubmit);
+    const signUpButton = document.querySelector('.sign-up');
+
+    signUpButton?.addEventListener('submit', this.onSubmit);
   };
 }

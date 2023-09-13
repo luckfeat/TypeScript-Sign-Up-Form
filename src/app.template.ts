@@ -16,7 +16,7 @@ const template = `
         </div>
 
         <div class="mt-4">
-          <button id="btn-join" class="px-4 py-1 text-white font-light tracking-wider bg-gray-300 rounded" type="submit">회원 가입</button>
+          <button id="btn-join" class="sign-up px-4 py-1 text-white font-light tracking-wider bg-gray-300 rounded" type="submit">회원 가입</button>
         </div>    
       </form>
     </div>

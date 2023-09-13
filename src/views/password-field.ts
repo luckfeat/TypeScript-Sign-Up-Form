@@ -1,6 +1,7 @@
 import { nextTick } from '../utils';
 import { ValidateRule } from '../types';
 import template from './password-field.template';
+import validationTemplate from './password-validation.template';
 import { RequireRule } from '../constant';
 
 enum StrongLevel {
@@ -46,6 +47,7 @@ const DefaultProps: Props = {
 
 export default class PasswordField {
   private template = template;
+  private validationTemplate = validationTemplate;
   private container: string;
   private data: Props;
   private updated: boolean = false;
@@ -75,18 +77,19 @@ export default class PasswordField {
   private attachEventHandler() {
     document
       .querySelector(this.container)
-      ?.addEventListener('change', this.onChange.bind(this));
+      ?.addEventListener('input', this.onChange.bind(this));
   }
 
   private update = () => {
     const container = document.querySelector(
       `#field-${this.data.id}`
     ) as HTMLElement;
+
     const docFrag = document.createElement('div');
 
-    docFrag.innerHTML = this.template(this.buildData());
+    docFrag.innerHTML = this.validationTemplate(this.buildData());
 
-    container.innerHTML = docFrag.children[0].innerHTML;
+    container.children[1].innerHTML = docFrag.children[0].innerHTML;
   };
 
   private validate = (): ValidateRule | null => {

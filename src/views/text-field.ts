@@ -21,8 +21,6 @@ const DefaultProps: Props = {
   require: false,
 };
 
-// const nameField = new TextField('#required-fields', { id: 'name', label: '이름', type: 'text', placeholder: '이름을 입력해주세요', require: true, });
-
 export default class TextField {
   private template = template;
   private container: string;
@@ -37,6 +35,9 @@ export default class TextField {
     if (this.data.require) {
       this.addValidateRule(RequireRule);
     }
+
+    // nextTick(this.attachEventHandler);
+    setTimeout(this.attachEventHandler.bind(this), 16);
   }
 
   private validate() {
@@ -56,7 +57,7 @@ export default class TextField {
       return {
         ...this.data,
         updated: this.updated,
-        valid: !isInvalid, // !null || !invalidRules[0]
+        valid: !isInvalid,
         validateMessage: isInvalid ? isInvalid.message : '',
       };
     } else {
@@ -67,6 +68,33 @@ export default class TextField {
         validateMessage: '',
       };
     }
+  }
+
+  private onChange(e: Event) {
+    const { value, id } = e.target as HTMLInputElement;
+
+    if (id === this.data.id) {
+      this.updated = true;
+      this.data.text = value;
+      this.update();
+    }
+  }
+
+  private attachEventHandler() {
+    document
+      .querySelector(this.container)
+      // ?.addEventListener('change', this.onChange.bind(this));
+      ?.addEventListener('change', this.onChange.bind(this));
+  }
+
+  private update() {
+    const container = document.querySelector(
+      `#field-${this.data.id}`
+    ) as HTMLElement;
+    const docFrag = document.createElement('div');
+
+    docFrag.innerHTML = this.template(this.buildData());
+    container.innerHTML = docFrag.children[0].innerHTML;
   }
 
   public addValidateRule = (rule: ValidateRule) => {

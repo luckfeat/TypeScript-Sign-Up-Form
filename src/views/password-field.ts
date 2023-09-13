@@ -19,12 +19,21 @@ type Props = {
   strong?: StrongLevel;
 };
 
-const StrongMessage: string[] = [
+const StrongMessage: [string, string, string, string] = [
   '금지된 수준',
   '심각한 수준',
   '보통 수준',
   '강력한 암호',
 ];
+
+// const StrongMessage: string[] = [
+//   '금지된 수준',
+//   '심각한 수준',
+//   '보통 수준',
+//   '강력한 암호',
+// ];
+
+// 배열과 튜플의 차이점?
 
 const DefaultProps: Props = {
   id: '',
@@ -49,7 +58,36 @@ export default class PasswordField {
     if (this.data.require) {
       this.addValidateRule(RequireRule);
     }
+
+    setTimeout(this.attachEventHandler.bind(this), 16);
   }
+
+  private onChange(e: Event) {
+    const { value, id } = e.target as HTMLInputElement;
+
+    if (id === this.data.id) {
+      this.updated = true;
+      this.data.text = value;
+      this.update();
+    }
+  }
+
+  private attachEventHandler() {
+    document
+      .querySelector(this.container)
+      ?.addEventListener('change', this.onChange.bind(this));
+  }
+
+  private update = () => {
+    const container = document.querySelector(
+      `#field-${this.data.id}`
+    ) as HTMLElement;
+    const docFrag = document.createElement('div');
+
+    docFrag.innerHTML = this.template(this.buildData());
+
+    container.innerHTML = docFrag.children[0].innerHTML;
+  };
 
   private validate = (): ValidateRule | null => {
     const target = this.data.text ? this.data.text.trim() : '';
@@ -89,7 +127,7 @@ export default class PasswordField {
       strongLevel0: strongLevel >= 1,
       strongLevel1: strongLevel >= 2,
       strongLevel2: strongLevel >= 3,
-      strongLevel3: strongLevel >= 4,
+      // strongLevel3: strongLevel >= 4,
     };
   }
 

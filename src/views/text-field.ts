@@ -1,6 +1,8 @@
 import { nextTick } from '../utils';
 import { ValidateRule } from '../types';
 import template from './text-field.template';
+import textValidationTemplate from './text-validation.template';
+import svgTemplate from './svg.template';
 import { RequireRule } from '../constant';
 
 type Props = {
@@ -23,6 +25,8 @@ const DefaultProps: Props = {
 
 export default class TextField {
   private template = template;
+  private textValidationTemplate = textValidationTemplate;
+  private svgTemplate = svgTemplate;
   private container: string;
   private data: Props;
   private updated: boolean = false;
@@ -84,17 +88,22 @@ export default class TextField {
     document
       .querySelector(this.container)
       // ?.addEventListener('change', this.onChange.bind(this));
-      ?.addEventListener('change', this.onChange.bind(this));
+      ?.addEventListener('input', this.onChange.bind(this));
   }
 
   private update() {
     const container = document.querySelector(
       `#field-${this.data.id}`
     ) as HTMLElement;
-    const docFrag = document.createElement('div');
+    const svgSpan = document.querySelector(
+      `.${this.data.id}-span`
+    ) as HTMLElement;
+    const validationDiv = document.querySelector(
+      `.${this.data.id}-validation`
+    ) as HTMLElement;
 
-    docFrag.innerHTML = this.template(this.buildData());
-    container.innerHTML = docFrag.children[0].innerHTML;
+    svgSpan.innerHTML = this.svgTemplate(this.buildData());
+    validationDiv.innerHTML = this.textValidationTemplate(this.buildData());
   }
 
   public addValidateRule = (rule: ValidateRule) => {

@@ -7,8 +7,6 @@ import {
 } from './constant';
 import { TextField, PasswordField, AddressField } from './views';
 
-// new App('#root', {title: 'Javascript & TypeScript Essential Chapter 5 - Sign up',});
-
 export default class App {
   template = template;
   data: AnyObject;
@@ -53,12 +51,17 @@ export default class App {
       id: 'password',
       label: '비밀번호',
       placeholder: '비밀번호를 입력해주세요',
+      require: true,
     });
 
     const addressField = new AddressField('#optional-fields', {
       id: 'address',
       label: '배송지 주소',
     });
+
+    nameField.addValidateRule(CantContainWhitespace);
+    nameField.addValidateRule(CantStartNumber);
+    nameField.addValidateRule(MinimumLengthLimit(3));
 
     idField.addValidateRule(CantContainWhitespace);
     idField.addValidateRule(CantStartNumber);
@@ -83,8 +86,6 @@ export default class App {
       field.render(true);
     });
 
-    const signUpButton = document.querySelector('.sign-up');
-
-    signUpButton?.addEventListener('submit', this.onSubmit);
+    this.container.addEventListener('submit', this.onSubmit);
   };
 }

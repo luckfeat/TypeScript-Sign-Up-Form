@@ -1,4 +1,4 @@
-const validationTemplate = `
+const pwdValidationTemplate = `
 <div class="mt-1">
     <div class="flex items-start mb-1">
       {{#if strongLevel0}}
@@ -30,4 +30,4 @@ const validationTemplate = `
 </div>
 `;
 
-export default window.Handlebars.compile(validationTemplate);
+export default window.Handlebars.compile(pwdValidationTemplate);

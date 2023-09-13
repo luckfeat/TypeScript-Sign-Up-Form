@@ -42,5 +42,20 @@ export default class AddressField {
         ...this.data,
       });
     }
+
+    container
+      .querySelector(`#search-address`)
+      ?.addEventListener('click', () => {
+        new window.daum.Postcode({
+          oncomplete: (data: DaumAddress) => {
+            this.address1 = data.roadAddress;
+            this.zipcode = data.sigunguCode;
+
+            (
+              container.querySelector('#address1') as HTMLInputElement
+            ).value = `(${this.zipcode}) ${this.address1}`;
+          },
+        }).open();
+      });
   };
 }
